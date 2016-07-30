@@ -12,7 +12,6 @@ namespace RPS
         #region オブジェクト回り
 
         private Dictionary<string, asd.TextureObject2D> ObjectDict;
-        private asd.Keys[] SelectKeys = { asd.Keys.A, asd.Keys.S, asd.Keys.D, asd.Keys.J, asd.Keys.K, asd.Keys.L };
 
         asd.Layer2D Layer = new asd.Layer2D();
 
@@ -55,16 +54,15 @@ namespace RPS
 
             int priority = 0;
             SetPriority("background", true, ref priority);
-            SetPriority("Objects", true, ref priority);
-            SetPriority("charactorbox", true, ref priority);
+            SetPriority2("characterbox", true, ref priority);
             SetPriority("timebox", true, ref priority);
             SetPriority("timebar", true, ref priority);//複製するやつか？！
-            SetPriority("Objects", true, ref priority);
-            SetPriority2("button", false, ref priority);
-            SetPriority2("pushbutton", true, ref priority);
+            SetPriority("spotlights", true, ref priority);
+            SetPriority2("bright", false, ref priority);
+            SetPriority2("dark", true, ref priority);
             SetPriority("key", true, ref priority);
             SetPriority("talkbox", false, ref priority);
-            SetPriority2("_light", false, ref priority);
+            SetPriority2("whitelight", false, ref priority);
             SetPriority2("bluelight", false, ref priority);
             SetPriority2("redlight", false, ref priority);
         }
@@ -106,8 +104,8 @@ namespace RPS
 
         private void UpdateButton(char button, bool isLighting)
         {
-            ObjectDict["button" + button].IsDrawn = isLighting;
-            ObjectDict["pushbutton" + button].IsDrawn = !isLighting;
+            ObjectDict["bright" + button].IsDrawn = isLighting;
+            ObjectDict["dark" + button].IsDrawn = !isLighting;
         }
 
         private void UpdateLights(string prefix, bool isDrawn)
@@ -118,95 +116,57 @@ namespace RPS
             }
         }
 
+        private void LoadAnimations()
+        {
+            string[] list = { @"Resources\nicora_lose\", @"Resources\nicora_normal\", @"Resources\nicora_talk\", @"Resources\nicora_win\",
+                @"Resources\tesra_lose\", @"Resources\tesra_normal\",@"Resources\tesra_talk\", @"Resources\tesra_win\" };
+
+            foreach (var n in list)
+            {
+                var obj = new AnimationObject(n, 30, null, true);
+                obj.TextureFilterType = asd.TextureFilterType.Linear;
+                if (n.Contains("nicora"))
+                {
+                    obj.Position = ObjectDict["characterbox_l"].Position;
+                    var scale = new asd.Vector2DF();
+                    scale.X = (float)ObjectDict["characterbox_l"].Texture.Size.X / obj.Texture.Size.X;
+                    scale.Y = (float)ObjectDict["characterbox_l"].Texture.Size.Y / obj.Texture.Size.Y;
+                    obj.Scale = scale;
+                }
+                else
+                {
+                    obj.Position = ObjectDict["characterbox_r"].Position;
+                    var scale = new asd.Vector2DF();
+                    scale.X = (float)ObjectDict["characterbox_r"].Texture.Size.X / obj.Texture.Size.X;
+                    scale.Y = (float)ObjectDict["characterbox_r"].Texture.Size.Y / obj.Texture.Size.Y;
+                    obj.Scale = scale;
+                }
+
+                if (!n.Contains("normal")) obj.IsDrawn = false;
+                obj.DrawingPriority = 100;
+                ObjectDict.Add(n, obj);
+                Layer.AddObject(obj);
+            }
+        }
+
         #endregion
 
-        private int WinFlag = -1;
-        private int WinCount = 0;
-        private int[] Select = { -1, -1 };
-        int TimeCount = 0;
-        Action CurrentPhase;
+        private GameController Controller;
 
         public GameScene()
         {
             LoadImagePack();
             RegisterTextureObjects();
             FillTimeBar();
-
+            LoadAnimations();
             this.AddLayer(Layer);
 
-            CurrentPhase = PhaseWaitSelect;
+            Controller = new GameController(UpdateTimeBar, UpdateButton, UpdateLights);
         }
 
         protected override void OnUpdated()
         {
-            CurrentPhase();
-        }
-
-        private void PhaseWaitSelect()
-        {
-            TimeCount++;
-            if (TimeCount > 225)
-            {
-                CurrentPhase = PhaseResult;
-                ShiftToResult();
-                return;
-            }
-            if (TimeCount % 15 == 0) UpdateTimeBar(TimeCount / 15);
-
-            for (int i = 0; i < 6; i++)
-            {
-                if (asd.Engine.Keyboard.GetKeyState(SelectKeys[i]) == asd.KeyState.Push) Select[i / 3] = i % 3;
-            }
-        }
-
-        private void ShiftToResult()
-        {
-            UpdateButton('A', Select[0] == 0);
-            UpdateButton('S', Select[0] == 1);
-            UpdateButton('D', Select[0] == 2);
-            UpdateButton('J', Select[1] == 0);
-            UpdateButton('K', Select[1] == 1);
-            UpdateButton('L', Select[1] == 2);
-
-            int[,] table = new int[3, 3] { { 1, 0, -1 }, { 0, -1, 1 }, { -1, 1, 0 } };//勝敗テーブル
-            switch (table[Select[0], Select[1]])
-            {
-                case 0://左の勝ち
-                    WinFlag = 0;
-                    WinCount = 0;
-                    break;
-                case 1://右の勝ち
-                    WinFlag = 1;
-                    WinCount = 0;
-                    break;
-                case -1://あいこ
-                    WinCount++;
-                    if (WinFlag != -1 &&  WinCount!=3) UpdateLights("_light", true);
-                    break;
-            }
-
-            if (WinCount == 3)
-            {
-                if (WinFlag == 0) UpdateLights("redlight", true);
-                else if (WinFlag == 1) UpdateLights("bluelight", true);
-            }
-        }
-
-        private void PhaseResult()
-        {
-            if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Enter) == asd.KeyState.Release)
-            {
-                CurrentPhase = PhaseWaitSelect;
-                ShiftToWaitSelect();
-            }
-        }
-
-        private void ShiftToWaitSelect()
-        {
-            UpdateLights("_light", false);
-            UpdateLights("redlight", false);
-            UpdateLights("bluelight", false);
-            TimeCount = 0;
+            Controller.OnUpdate();
         }
     }
 }
