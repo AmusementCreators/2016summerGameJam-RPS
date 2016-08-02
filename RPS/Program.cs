@@ -17,7 +17,7 @@ namespace RPS
 			// Altseedを初期化する。
 			asd.Engine.Initialize(Title, 1280, 720, new asd.EngineOption());
 
-            asd.Engine.ChangeScene(new GameScene());
+            asd.Engine.ChangeScene(new TitleScene());
 
 			// Altseedのウインドウが閉じられていないか確認する。
 			while (asd.Engine.DoEvents())
