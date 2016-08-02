@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RPS
 {
-    class GameController
+    class GameController : IController
     {
         private asd.Keys[] SelectKeys = { asd.Keys.A, asd.Keys.S, asd.Keys.D, asd.Keys.J, asd.Keys.K, asd.Keys.L };
 

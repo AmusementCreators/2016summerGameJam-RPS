@@ -60,11 +60,18 @@ namespace RPS
 
         protected override void OnUpdated()
         {
-            // マウスの左ボタンが押されるのを待つ。
+            // Kキーが押されるのを待つ
             if (asd.Engine.Keyboard.GetKeyState(asd.Keys.K)  == asd.KeyState.Push)
             {
-                asd.Engine.ChangeSceneWithTransition(new GameScene(), new asd.TransitionFade(0.5f, 0.5f));
+                asd.Engine.ChangeSceneWithTransition(new GameScene(false), new asd.TransitionFade(0.5f, 0.5f));
             }
+
+            // Jキーが押されるのを待つ
+            if (asd.Engine.Keyboard.GetKeyState(asd.Keys.J) == asd.KeyState.Push)
+            {
+                asd.Engine.ChangeSceneWithTransition(new GameScene(true), new asd.TransitionFade(0.5f, 0.5f));
+            }
+
         }
 
     }

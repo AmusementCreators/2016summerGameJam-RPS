@@ -13,6 +13,9 @@ namespace RPS
 
         private Dictionary<string, asd.TextureObject2D> ObjectDict;
 
+        asd.TextObject2D TextBox;
+        private Dictionary<string, asd.Font> FontDict;
+
         asd.Layer2D Layer = new asd.Layer2D();
 
         private void LoadImagePack()
@@ -45,7 +48,7 @@ namespace RPS
             }
         }
 
-        private void RegisterTextureObjects()
+        private void RegisterObjects()
         {
             foreach (var obj in ObjectDict)
             {
@@ -56,12 +59,14 @@ namespace RPS
             SetPriority("background", true, ref priority);
             SetPriority2("characterbox", true, ref priority);
             SetPriority("timebox", true, ref priority);
-            SetPriority("timebar", true, ref priority);//複製するやつか？！
+            SetPriority("timebar", true, ref priority);
             SetPriority("spotlights", true, ref priority);
+            LoadAnimations(ref priority);
             SetPriority2("bright", false, ref priority);
             SetPriority2("dark", true, ref priority);
             SetPriority("key", true, ref priority);
             SetPriority("talkbox", false, ref priority);
+            CreateTalkBox(ref priority);
             SetPriority2("whitelight", false, ref priority);
             SetPriority2("bluelight", false, ref priority);
             SetPriority2("redlight", false, ref priority);
@@ -116,7 +121,26 @@ namespace RPS
             }
         }
 
-        private void LoadAnimations()
+
+        private void CreateTalkBox(ref int priority)
+        {
+            FontDict = new Dictionary<string, asd.Font>();
+            FontDict.Add("Red", asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(255, 0, 0), 0, new asd.Color(0, 0, 0)));
+            FontDict.Add("Blue", asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(0, 0, 255), 0, new asd.Color(0, 0, 0)));
+            FontDict.Add("Black", asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(0, 0, 0), 0, new asd.Color(0, 0, 0)));
+            TextBox = new asd.TextObject2D();
+            TextBox.Position = ObjectDict["talkbox"].Position;
+            TextBox.DrawingPriority = priority++;
+        }
+        private void UpdateTalkBox(bool isDrawn, string color, string text)
+        {
+            ObjectDict["talkbox"].IsDrawn = isDrawn;
+            TextBox.IsDrawn = isDrawn;
+            TextBox.Font = FontDict[color];
+            TextBox.Text = text; 
+        }
+
+        private void LoadAnimations(ref int priority)
         {
             string[] list = { @"Resources\nicora_lose\", @"Resources\nicora_normal\", @"Resources\nicora_talk\", @"Resources\nicora_win\",
                 @"Resources\tesra_lose\", @"Resources\tesra_normal\",@"Resources\tesra_talk\", @"Resources\tesra_win\" };
@@ -128,6 +152,7 @@ namespace RPS
                 if (n.Contains("nicora"))
                 {
                     obj.Position = ObjectDict["characterbox_l"].Position;
+                    obj.DrawingPriority = priority++;
                     var scale = new asd.Vector2DF();
                     scale.X = (float)ObjectDict["characterbox_l"].Texture.Size.X / obj.Texture.Size.X;
                     scale.Y = (float)ObjectDict["characterbox_l"].Texture.Size.Y / obj.Texture.Size.Y;
@@ -137,6 +162,7 @@ namespace RPS
                 {
                     obj.Position = ObjectDict["characterbox_r"].Position;
                     var scale = new asd.Vector2DF();
+                    obj.DrawingPriority = priority++;
                     scale.X = (float)ObjectDict["characterbox_r"].Texture.Size.X / obj.Texture.Size.X;
                     scale.Y = (float)ObjectDict["characterbox_r"].Texture.Size.Y / obj.Texture.Size.Y;
                     obj.Scale = scale;
@@ -151,22 +177,24 @@ namespace RPS
 
         #endregion
 
-        private GameController Controller;
+        private IController Ctrl;
 
-        public GameScene()
+        public GameScene(bool isTutorial)
         {
             LoadImagePack();
-            RegisterTextureObjects();
+            RegisterObjects();
             FillTimeBar();
-            LoadAnimations();
             this.AddLayer(Layer);
 
-            Controller = new GameController(UpdateTimeBar, UpdateButton, UpdateLights);
+            if (isTutorial)
+                Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateLights);
+            else
+                Ctrl = new TutorialController(UpdateTimeBar, UpdateButton, UpdateLights, UpdateTalkBox);
         }
 
         protected override void OnUpdated()
         {
-            Controller.OnUpdate();
+            Ctrl.OnUpdate();
         }
     }
 }

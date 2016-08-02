@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace RPS
 {
-    class Tutorial : asd.Scene
+    class TutorialController : IController
     {
         private void Story()
         {
-         int WordCount = 0;
+            int WordCount = 0;
             var nicoraWord = new asd.TextObject2D();
             var tesraWord = new asd.TextObject2D();
             var Word = new asd.TextObject2D();
 
-         switch (WordCount)
+            switch (WordCount)
             {
                 case 0:
                     Word.Text = "スペースキーを押してください";
@@ -84,9 +84,21 @@ namespace RPS
                 asd.Engine.AddObject2D(Word);
                 WordCount = WordCount + 1;
             }
-    }
-        
+        }
 
+        public void OnUpdate()
+        {
+
+        }
 
     }
 }
+/*
+ class CharWord
+ {
+    string Color;
+    string Text;
+ }
+ みたいなのを用意してこれの配列を作る。
+ UpdateTalkBoxにisDrawn(そもそも描画するのか),色（Red, Blue, Black）,表示する文字列の順に投げると映るハズ
+     */

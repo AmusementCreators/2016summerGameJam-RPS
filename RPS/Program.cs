@@ -7,27 +7,32 @@ using System.Reflection;
 
 namespace RPS
 {
-	static class Program
-	{
+    static class Program
+    {
         public static string Title = "ライトニングじゃんけん！";
 
-		[System.STAThread]
-		static void Main(string[] args)
-		{
-			// Altseedを初期化する。
-			asd.Engine.Initialize(Title, 1280, 720, new asd.EngineOption());
+        [System.STAThread]
+        static void Main(string[] args)
+        {
+            // Altseedを初期化する。
+            asd.Engine.Initialize(Title, 1280, 720, new asd.EngineOption());
 
             asd.Engine.ChangeScene(new TitleScene());
 
-			// Altseedのウインドウが閉じられていないか確認する。
-			while (asd.Engine.DoEvents())
-			{
-				// Altseedを更新する。
-				asd.Engine.Update();
-			}
+            // Altseedのウインドウが閉じられていないか確認する。
+            while (asd.Engine.DoEvents())
+            {
+                // Altseedを更新する。
+                asd.Engine.Update();
+            }
 
-			// Altseedの終了処理をする。
-			asd.Engine.Terminate();
-		}
-	}
+            // Altseedの終了処理をする。
+            asd.Engine.Terminate();
+        }
+    }
+
+    interface IController
+    {
+        void OnUpdate();
+    }
 }
