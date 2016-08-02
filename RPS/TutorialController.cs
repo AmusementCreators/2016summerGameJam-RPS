@@ -100,5 +100,5 @@ namespace RPS
     string Text;
  }
  みたいなのを用意してこれの配列を作る。
- UpdateTalkBoxにisDrawn(そもそも描画するのか),色（Red, Blue, Black）,表示する文字列の順に投げると映るハズ
+ UpdateTalkBoxにisDrawn(そもそも描画するのか),色,表示する文字列の順に投げると映るハズ
      */

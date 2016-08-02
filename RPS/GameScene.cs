@@ -14,7 +14,6 @@ namespace RPS
         private Dictionary<string, asd.TextureObject2D> ObjectDict;
 
         asd.TextObject2D TextBox;
-        private Dictionary<string, asd.Font> FontDict;
 
         asd.Layer2D Layer = new asd.Layer2D();
 
@@ -124,20 +123,17 @@ namespace RPS
 
         private void CreateTalkBox(ref int priority)
         {
-            FontDict = new Dictionary<string, asd.Font>();
-            FontDict.Add("Red", asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(255, 0, 0), 0, new asd.Color(0, 0, 0)));
-            FontDict.Add("Blue", asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(0, 0, 255), 0, new asd.Color(0, 0, 0)));
-            FontDict.Add("Black", asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(0, 0, 0), 0, new asd.Color(0, 0, 0)));
             TextBox = new asd.TextObject2D();
             TextBox.Position = ObjectDict["talkbox"].Position;
+            TextBox.Font = asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(255, 255, 255), 0, new asd.Color(0, 0, 0));
             TextBox.DrawingPriority = priority++;
         }
-        private void UpdateTalkBox(bool isDrawn, string color, string text)
+        private void UpdateTalkBox(bool isDrawn, asd.Color color, string text)
         {
             ObjectDict["talkbox"].IsDrawn = isDrawn;
             TextBox.IsDrawn = isDrawn;
-            TextBox.Font = FontDict[color];
-            TextBox.Text = text; 
+            TextBox.Color = color;
+            TextBox.Text = text;
         }
 
         private void LoadAnimations(ref int priority)
