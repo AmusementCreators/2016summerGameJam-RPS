@@ -125,7 +125,7 @@ namespace RPS
 		{
 			TextBox = new asd.TextObject2D();
 			TextBox.Position = ObjectDict["talkbox"].Position + new asd.Vector2DF(20, 20);
-			TextBox.Font = asd.Engine.Graphics.CreateDynamicFont("", 40, new asd.Color(255, 0, 0), 0, new asd.Color(0, 0, 0));
+			TextBox.Font = asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(255, 255, 255), 0, new asd.Color(0, 0, 0));
 			TextBox.DrawingPriority = priority++;
 			Layer.AddObject(TextBox);
 		}

@@ -19,7 +19,7 @@ namespace RPS
 		public bool Story()
 		{
 			var Black = new asd.Color(0, 0, 0);
-			var Blue = new asd.Color(0, 255, 0);
+			var Blue = new asd.Color(0, 0, 255);
 			var Red = new asd.Color(255, 0, 0);
 
 			switch (WordCount)
