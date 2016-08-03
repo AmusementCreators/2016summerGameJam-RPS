@@ -72,7 +72,13 @@ namespace RPS
 				asd.Engine.ChangeSceneWithTransition(new GameScene(true), new asd.TransitionFade(0.5f, 0.5f));
 			}
 
-		}
+            // Lキーが押されるのを待つ
+            if (asd.Engine.Keyboard.GetKeyState(asd.Keys.L) == asd.KeyState.Push)
+            {
+                asd.Engine.ChangeSceneWithTransition(new CopyRightScene(), new asd.TransitionFade(0.5f, 0.5f));
+            }
+
+        }
 
 	}
 }
