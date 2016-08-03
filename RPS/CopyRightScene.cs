@@ -8,7 +8,6 @@ namespace RPS
 {
     class CopyRightScene :asd.Scene
     {
-        asd.Layer2D Layer = new asd.Layer2D();
 
         private void Copyright()
         {
