@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationObject.cs" />
+    <Compile Include="CharWord.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="Program.cs" />

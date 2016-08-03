@@ -8,87 +8,101 @@ namespace RPS
 {
     class TutorialController : IController
     {
-        private void Story()
+        private asd.Keys[] SelectKeys = { asd.Keys.A, asd.Keys.S, asd.Keys.D, asd.Keys.J, asd.Keys.K, asd.Keys.L };
+
+        private Action CurrentPhase;
+        private int WinFlag = -1;
+        private int WinCount = 0;
+        private int[] Select = { -1, -1 };
+        private int TimeCount = 0;
+
+        private event Action<int> UpdateTimeBar;
+        private event Action<char, bool> UpdateButton;
+        private event Action<string, bool> UpdateLights;
+        private event Action<bool, asd.Color,string> UpdateTalkBox;
+
+        public TutorialController(Action<int> updateTimeBar, Action<char, bool> updateButton, Action<string, bool> updateLights, Action<bool, asd.Color, string> updateTalkBox)
         {
-            int WordCount = 0;
-            var nicoraWord = new asd.TextObject2D();
-            var tesraWord = new asd.TextObject2D();
-            var Word = new asd.TextObject2D();
+            CurrentPhase = PhaseWaitSelect;
+            UpdateTimeBar = updateTimeBar;
+            UpdateButton = updateButton;
+            UpdateLights = updateLights;
+            UpdateTalkBox = updateTalkBox;
+        }
 
-            switch (WordCount)
+        private void PhaseWaitSelect()
+        {
+            TimeCount++;
+            if (TimeCount > 225)
             {
-                case 0:
-                    Word.Text = "スペースキーを押してください";
-                    break;
-                case 1:
-                    tesraWord.Text = "ちょっと、二コラ！これはどういうことなの！？";
-                    break;
-                case 2:
-                    nicoraWord.Text = "はいはいはーい！\nテスラ姉さん、いったいどうしました？";
-                    break;
-                case 3:
-                    tesraWord.Text = "建物中のライトが全然点かないじゃない！\nまたなんかしたでしょう！";
-                    break;
-                case 4:
-                    nicoraWord.Text = "そんな、人を悪者みたいに！悪いことはなにもしてないよ！\n……好奇心でちょっと回路をいじっただけ";
-                    break;
-                case 5:
-                    tesraWord.Text = "してるじゃない！まったくもう、早く直してちょうだい\nこれじゃなにも見えないわ！";
-                    break;
-                case 6:
-                    nicoraWord.Text = "もちろん、直すための手は打ってあるよ！\n明日のお昼に部品が届く予定！";
-                    break;
-                case 7:
-                    tesraWord.Text = "明日の昼って……今夜はどうするのよ！\nあと、さっきから話す時だけライトが点くのはなぜ？";
-                    break;
-                case 8:
-                    nicoraWord.Text = "頑張ったんだけど、どちらかのライトしか点かなくなっちゃったの";
-                    break;
-                case 9:
-                    tesraWord.Text = "あらそう、じゃあ私の部屋だけ点けてちょうだい\n今夜は観たいドラマがあるの";
-                    break;
-                case 10:
-                    nicoraWord.Text = "ダメ！！今夜は観たいアニメがあるんだもん！\nね、じゃんけんしよう？";
-                    break;
-                case 11:
-                    nicoraWord.Text = "って、なると思ったから、スイッチをグー・チョキ・パーにしてみました！\n勝った方の部屋しかライトは点きません！";
-                    break;
-                case 12:
-                    Word.Text = "真ん中に表示される制限時間内に、出したい手のスイッチを押してください。";
-                    break;
-                case 13:
-                    tesraWord.Text = "はあ！？……付き合っていられないわ\n仕方がない、スポットライトは借りるわね";
-                    break;
-                case 14:
-                    nicoraWord.Text = "ざーんねーんでしたー！スポットライトもお部屋の回路と繋がっています！\nじゃんけんに勝った状態であいこにならないと点きません！";
-                    break;
-                case 15:
-                    Word.Text = "あいこになると、スポットライトが勝っているほうの色に光ります。\nしかし、連続であいこにならないと消えてしまいます。";
-                    break;
-                case 16:
-                    tesraWord.Text = "なによ、それ！もう頭にきた！絶対にすべてのライトを点けてやるわ\n二コラの部屋以外！";
-                    break;
-                case 17:
-                    Word.Text = "３回連続であいこを出し、相手以外のライトを点けたほうの勝利となります。";
-                    break;
-                case 18:
-                    nicoraWord.Text = "ふふーん、臨むところ！";
-                    break;
-
+                CurrentPhase = PhaseResult;
+                ShiftToResult();
+                return;
             }
+            if (TimeCount % 15 == 0) UpdateTimeBar(TimeCount / 15);
 
-            if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) == asd.KeyState.Push)
+            for (int i = 0; i < 6; i++)
             {
-                asd.Engine.AddObject2D(nicoraWord);
-                asd.Engine.AddObject2D(tesraWord);
-                asd.Engine.AddObject2D(Word);
-                WordCount = WordCount + 1;
+                if (asd.Engine.Keyboard.GetKeyState(SelectKeys[i]) == asd.KeyState.Push) Select[i / 3] = i % 3;
             }
         }
 
+        private void ShiftToResult()
+        {
+            UpdateButton('A', Select[0] == 0);
+            UpdateButton('S', Select[0] == 1);
+            UpdateButton('D', Select[0] == 2);
+            UpdateButton('J', Select[1] == 0);
+            UpdateButton('K', Select[1] == 1);
+            UpdateButton('L', Select[1] == 2);
+
+            int[,] table = new int[3, 3] { { 1, 0, -1 }, { 0, -1, 1 }, { -1, 1, 0 } };//勝敗テーブル
+            switch (table[Select[0], Select[1]])
+            {
+                case 0://左の勝ち
+                    WinFlag = 0;
+                    WinCount = 0;
+                    break;
+                case 1://右の勝ち
+                    WinFlag = 1;
+                    WinCount = 0;
+                    break;
+                case -1://あいこ
+                    WinCount++;
+                    if (WinFlag != -1 && WinCount != 3) UpdateLights("_light", true);
+                    break;
+            }
+
+            if (WinCount == 3)
+            {
+                if (WinFlag == 0) UpdateLights("redlight", true);
+                else if (WinFlag == 1) UpdateLights("bluelight", true);
+            }
+        }
+
+        private void PhaseResult()
+        {
+            if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Enter) == asd.KeyState.Release)
+            {
+                CurrentPhase = PhaseWaitSelect;
+                ShiftToWaitSelect();
+            }
+        }
+
+        private void ShiftToWaitSelect()
+        {
+            UpdateLights("_light", false);
+            UpdateLights("redlight", false);
+            UpdateLights("bluelight", false);
+            TimeCount = 0;
+        }
+
+
+
+
         public void OnUpdate()
         {
-
+            CurrentPhase();
         }
 
     }
