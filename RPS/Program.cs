@@ -7,32 +7,36 @@ using System.Reflection;
 
 namespace RPS
 {
-    static class Program
-    {
-        public static string Title = "ライトニングじゃんけん！";
+	static class Program
+	{
+		public static string Title = "ライトニングじゃんけん！";
+		public static asd.ImagePackage TitleUI, GameUI;
 
-        [System.STAThread]
-        static void Main(string[] args)
-        {
-            // Altseedを初期化する。
-            asd.Engine.Initialize(Title, 1280, 720, new asd.EngineOption());
+		[System.STAThread]
+		static void Main(string[] args)
+		{
+			// Altseedを初期化する。
+			asd.Engine.Initialize(Title, 1280, 720, new asd.EngineOption());
 
-            asd.Engine.ChangeScene(new TitleScene());
+			TitleUI = asd.Engine.Graphics.CreateImagePackage(@"Resources\GameTitle.aip");
+			GameUI = asd.Engine.Graphics.CreateImagePackage(@"Resources\Game.aip");
 
-            // Altseedのウインドウが閉じられていないか確認する。
-            while (asd.Engine.DoEvents())
-            {
-                // Altseedを更新する。
-                asd.Engine.Update();
-            }
+			asd.Engine.ChangeScene(new TitleScene());
 
-            // Altseedの終了処理をする。
-            asd.Engine.Terminate();
-        }
-    }
+			// Altseedのウインドウが閉じられていないか確認する。
+			while (asd.Engine.DoEvents())
+			{
+				// Altseedを更新する。
+				asd.Engine.Update();
+			}
 
-    interface IController
-    {
-        void OnUpdate();
-    }
+			// Altseedの終了処理をする。
+			asd.Engine.Terminate();
+		}
+	}
+
+	interface IController
+	{
+		void OnUpdate();
+	}
 }
