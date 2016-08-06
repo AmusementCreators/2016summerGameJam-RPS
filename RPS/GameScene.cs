@@ -82,6 +82,8 @@ namespace RPS
             SetPriority2("whitelight", false, ref priority);
             SetPriority2("bluelight", false, ref priority);
             SetPriority2("redlight", false, ref priority);
+            CreateLast(ref priority);
+            string namae = "";
         }
 
         private void FillTimeBar()
@@ -168,6 +170,24 @@ namespace RPS
             TextBox.Text = text;
         }
 
+            private void CreateLast(ref int priority)
+        {
+            asd.TextureObject2D obj = new asd.TextureObject2D();
+            obj.DrawingPriority = priority++;
+            string namae = "";
+            asd.Texture2D texture = asd.Engine.Graphics.CreateTexture2D("Resources/"+ namae + " _win.png");
+            obj.Texture = texture;
+            obj.CenterPosition = new asd.Vector2DF(640, 360);
+            Layer.AddObject(obj);
+        }
+
+        private void UpdateLast(bool Finish)
+        {
+            string namae = "";
+            if (true) namae = "nicora";
+            else namae = "tesra";
+        }
+
         private void LoadAnimations(ref int priority)
         {
             string[] list = { @"Resources\nicora_lose\", @"Resources\nicora_normal\", @"Resources\nicora_talk\", @"Resources\nicora_win\",
@@ -215,7 +235,7 @@ namespace RPS
             this.AddLayer(Layer);
 
             if (!isTutorial)
-                Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight, UpdateLights);
+                Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight, UpdateLights,UpdateLast);
             else
                 Ctrl = new TutorialController(UpdateTimeBar, UpdateButton, UpdateLights, UpdateTalkBox);
         }

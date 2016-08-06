@@ -20,14 +20,16 @@ namespace RPS
         private event Action<char, bool> UpdateButton;
         private event Action<bool> UpdateCharLight;
         private event Action<string, bool> UpdateLights;
+        private event Action<bool> UpdateLast;
 
-        public GameController(Action<int> updateTimeBar, Action<char, bool> updateButton,Action<bool>updateCharLight, Action<string, bool> updateLights)
+        public GameController(Action<int> updateTimeBar, Action<char, bool> updateButton,Action<bool>updateCharLight, Action<string, bool> updateLights,Action<bool> updateLast)
         {
             CurrentPhase = PhaseWaitSelect;
             UpdateTimeBar = updateTimeBar;
             UpdateButton = updateButton;
             UpdateCharLight = updateCharLight;
             UpdateLights = updateLights;
+            UpdateLast = updateLast;
         }
 
         private void PhaseWaitSelect()
@@ -80,8 +82,16 @@ namespace RPS
 
             if (WinCount == 3)
             {
-                if (WinFlag == 0) UpdateLights("redlight", true);
-                else if (WinFlag == 1) UpdateLights("bluelight", true);
+                if (WinFlag == 0)
+                {
+                    UpdateLights("bluelight", true);
+                    UpdateLast(true);
+                }
+                else if (WinFlag == 1)
+                {
+                    UpdateLights("redlight", true);
+                    UpdateLast(false);
+                }
             }
         }
 
