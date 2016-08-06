@@ -12,6 +12,7 @@ namespace RPS
         #region オブジェクト回り
 
         private Dictionary<string, asd.TextureObject2D> ObjectDict;
+        private Dictionary<string, asd.RectI> RectDict;
 
         asd.GeometryObject2D LightBox;
 
@@ -29,6 +30,8 @@ namespace RPS
         {
             var imgPack = Program.GameUI;
             ObjectDict = new Dictionary<string, asd.TextureObject2D>();
+            RectDict = new Dictionary<string, asd.RectI>();
+
             for (int i = 0; i < imgPack.ImageCount; i++)
             {
                 var obj = new asd.TextureObject2D();
@@ -37,6 +40,7 @@ namespace RPS
                 var name = imgPack.GetImageName(i);
 
                 ObjectDict.Add(name, obj);
+                RectDict.Add(name, imgPack.GetImageArea(i));
             }
         }
 
