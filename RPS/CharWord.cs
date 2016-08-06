@@ -52,7 +52,7 @@ namespace RPS
 
             UpdateTalkBox(true, Color[WordCount], Text[WordCount]);
             WordCount = WordCount + 1;
-			if (WordCount == 20) return true;
+			if (WordCount == Text.Length) return true;
 			return false;
 		}
 	}
