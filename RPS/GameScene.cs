@@ -146,9 +146,9 @@ namespace RPS
             Layer.AddObject(LightBox);
 
             rect_l = new asd.RectangleShape();
-            rect_l.DrawingArea = new asd.RectF(ObjectDict["characterbox_l"].Position.X, ObjectDict["characterbox_l"].Position.Y, 240, 320);
+            rect_l.DrawingArea = new asd.RectF(ObjectDict["characterbox_l"].Position.X, ObjectDict["characterbox_l"].Position.Y, RectDict["characterbox_l"].Size.X, RectDict["characterbox_l"].Size.Y);
             rect_r = new asd.RectangleShape();
-            rect_r.DrawingArea = new asd.RectF(ObjectDict["characterbox_r"].Position.X, ObjectDict["characterbox_r"].Position.Y, 240, 320);
+            rect_r.DrawingArea = new asd.RectF(ObjectDict["characterbox_r"].Position.X, ObjectDict["characterbox_r"].Position.Y, RectDict["characterbox_r"].Size.X, RectDict["characterbox_r"].Size.Y);
         }
 
         private void CreateTalkBox(ref int priority)
