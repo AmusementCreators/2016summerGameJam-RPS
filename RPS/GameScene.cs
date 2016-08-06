@@ -13,9 +13,17 @@ namespace RPS
 
 		private Dictionary<string, asd.TextureObject2D> ObjectDict;
 
-		asd.TextObject2D TextBox;
+        asd.GeometryObject2D LightBox;
+
+        asd.RectangleShape rect_l;
+
+        asd.RectangleShape rect_r;
+
+        asd.TextObject2D TextBox;
 
 		asd.Layer2D Layer = new asd.Layer2D();
+
+        asd.Layer2D Layer2 = new asd.Layer2D();
 
 		private void LoadImagePack()
 		{
@@ -111,6 +119,26 @@ namespace RPS
 			ObjectDict["bright" + button].IsDrawn = isLighting;
 			ObjectDict["dark" + button].IsDrawn = !isLighting;
 		}
+
+        private void UpdateCharLight(bool isTurningOn)
+        {
+            LightBox = new asd.GeometryObject2D();
+            rect_l = new asd.RectangleShape();
+            rect_r = new asd.RectangleShape();
+            if (isTurningOn) {
+                LightBox.Position = ObjectDict["characterbox_l"].Position;
+                rect_l.DrawingArea = new asd.RectF(ObjectDict["characterbox_l"].Position.X, ObjectDict["characterbox_l"].Position.Y, 240, 320);
+                LightBox.Color = new asd.Color(255, 255, 255);
+                LightBox.Shape = rect_l;
+            }
+            else {
+                LightBox.Position = ObjectDict["characterbox_r"].Position;
+                rect_r.DrawingArea = new asd.RectF(ObjectDict["characterbox_r"].Position.X, ObjectDict["characterbox_r"].Position.Y, 240, 320);
+                LightBox.Color = new asd.Color(255, 255, 255);
+                LightBox.Shape = rect_r;
+            }
+            Layer2.AddObject(LightBox);
+        }
 
 		private void UpdateLights(string prefix, bool isDrawn)
 		{
