@@ -18,15 +18,15 @@ namespace RPS
 
         private event Action<int> UpdateTimeBar;
         private event Action<char, bool> UpdateButton;
-        private event Action<bool> UpdateCharBox;
+        private event Action<bool> UpdateCharLight;
         private event Action<string, bool> UpdateLights;
 
-        public GameController(Action<int> updateTimeBar, Action<char, bool> updateButton,Action<bool>updateCharBox, Action<string, bool> updateLights)
+        public GameController(Action<int> updateTimeBar, Action<char, bool> updateButton,Action<bool>updateCharLight, Action<string, bool> updateLights)
         {
             CurrentPhase = PhaseWaitSelect;
             UpdateTimeBar = updateTimeBar;
             UpdateButton = updateButton;
-            UpdateCharBox = updateCharBox;
+            UpdateCharLight = updateCharLight;
             UpdateLights = updateLights;
         }
 
@@ -74,8 +74,8 @@ namespace RPS
                     break;
             }
 
-            if (WinFlag == 0) UpdateCharBox(true);
-            else if (WinFlag == 1) UpdateCharBox(false);
+            if (WinFlag == 0) UpdateCharLight(true);
+            else if (WinFlag == 1) UpdateCharLight(false);
 
             if (WinCount == 3)
             {

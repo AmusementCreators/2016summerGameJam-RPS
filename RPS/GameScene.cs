@@ -9,7 +9,7 @@ namespace RPS
 
 	class GameScene : asd.Scene
 	{
-		#region オブジェクト回り
+        #region オブジェクト回り
 
 		private Dictionary<string, asd.TextureObject2D> ObjectDict;
 
@@ -60,9 +60,13 @@ namespace RPS
 			foreach (var obj in ObjectDict)
 			{
 				Layer.AddObject(obj.Value);
-			}
 
-			int priority = 0;
+                var LightBox = new asd.GeometryObject2D();
+                var rect_l = new asd.RectangleShape();
+                var rect_r = new asd.RectangleShape();
+            }
+
+            int priority = 0;
 			SetPriority("background", true, ref priority);
 			SetPriority2("characterbox", true, ref priority);
 			SetPriority("timebox", true, ref priority);
@@ -122,9 +126,6 @@ namespace RPS
 
         private void UpdateCharLight(bool isTurningOn)
         {
-            LightBox = new asd.GeometryObject2D();
-            rect_l = new asd.RectangleShape();
-            rect_r = new asd.RectangleShape();
             if (isTurningOn) {
                 LightBox.Position = ObjectDict["characterbox_l"].Position;
                 rect_l.DrawingArea = new asd.RectF(ObjectDict["characterbox_l"].Position.X, ObjectDict["characterbox_l"].Position.Y, 240, 320);
@@ -213,7 +214,7 @@ namespace RPS
 			this.AddLayer(Layer);
 
 			if (!isTutorial)
-				Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateLights);
+				Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight,UpdateLights);
 			else
 				Ctrl = new TutorialController(UpdateTimeBar, UpdateButton, UpdateLights, UpdateTalkBox);
 		}
