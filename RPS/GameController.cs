@@ -62,12 +62,12 @@ namespace RPS
                 case 0://左の勝ち
                     WinFlag = 0;
                     WinCount = 0;
-                    UpdateCharBox(true);
+                    UpdateCharLight(true);
                     break;
                 case 1://右の勝ち
                     WinFlag = 1;
                     WinCount = 0;
-                    UpdateCharBox(false);
+                    UpdateCharLight(false);
                     break;
                 case -1://あいこ
                     WinCount++;
