@@ -13,7 +13,7 @@ namespace RPS
 		private Action CurrentPhase;
 		private int WinFlag = -1;
 		private int WinCount = 0;
-		private int[] Select = { -1, -1 };
+		private int[] Select = { 3, 3 };
 		private int TimeCount = 0;
 
 		private event Action<int> UpdateTimeBar;
@@ -73,7 +73,7 @@ namespace RPS
 			UpdateButton('K', Select[1] == 1);
 			UpdateButton('L', Select[1] == 2);
 
-			int[,] table = new int[3, 3] { { 1, 0, -1 }, { 0, -1, 1 }, { -1, 1, 0 } };//勝敗テーブル
+			int[,] table = new int[4, 4] { { 1, 0, -1, 0 }, { 0, -1, 1, 0 }, { -1, 1, 0, 0 }, { 1, 1, 1, -2 } };//勝敗テーブル
 			switch (table[Select[0], Select[1]])
 			{
 				case 0://左の勝ち
