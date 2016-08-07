@@ -141,6 +141,17 @@ namespace RPS
             else LightBox.Shape = rect_r;
         }
 
+        private void UpdateCharAnimation(string name, string emotion)
+        {
+            foreach (var e in ObjectDict)
+            {
+                if (e.Key.Contains(@"Resources\" + name))
+                {
+                    e.Value.IsDrawn = e.Key.Contains(emotion);
+                }
+            }
+        }
+
         private void InitializeCharLight(ref int priority)
         {
             LightBox = new asd.GeometryObject2D();
@@ -170,12 +181,12 @@ namespace RPS
             TextBox.Text = text;
         }
 
-            private void CreateLast(ref int priority)
+        private void CreateLast(ref int priority)
         {
             asd.TextureObject2D obj = new asd.TextureObject2D();
             obj.DrawingPriority = priority++;
             string namae = "";
-            asd.Texture2D texture = asd.Engine.Graphics.CreateTexture2D("Resources/"+ namae + " _win.png");
+            asd.Texture2D texture = asd.Engine.Graphics.CreateTexture2D("Resources/" + namae + " _win.png");
             obj.Texture = texture;
             obj.CenterPosition = new asd.Vector2DF(640, 360);
             Layer.AddObject(obj);
@@ -235,7 +246,7 @@ namespace RPS
             this.AddLayer(Layer);
 
             if (!isTutorial)
-                Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight, UpdateLights,UpdateLast);
+                Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight, UpdateLights, UpdateLast, UpdateCharAnimation);
             else
                 Ctrl = new TutorialController(UpdateTimeBar, UpdateButton, UpdateLights, UpdateTalkBox);
         }

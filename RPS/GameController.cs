@@ -21,8 +21,10 @@ namespace RPS
         private event Action<bool> UpdateCharLight;
         private event Action<string, bool> UpdateLights;
         private event Action<bool> UpdateLast;
+        private event Action<string, string> UpdateCharAnimation;
 
-        public GameController(Action<int> updateTimeBar, Action<char, bool> updateButton,Action<bool>updateCharLight, Action<string, bool> updateLights,Action<bool> updateLast)
+
+        public GameController(Action<int> updateTimeBar, Action<char, bool> updateButton, Action<bool> updateCharLight, Action<string, bool> updateLights, Action<bool> updateLast, Action<string, string> updateCharAnimation)
         {
             CurrentPhase = PhaseWaitSelect;
             UpdateTimeBar = updateTimeBar;
@@ -30,6 +32,7 @@ namespace RPS
             UpdateCharLight = updateCharLight;
             UpdateLights = updateLights;
             UpdateLast = updateLast;
+            UpdateCharAnimation = updateCharAnimation;
         }
 
         private void PhaseWaitSelect()
@@ -114,7 +117,7 @@ namespace RPS
 
         public void OnUpdate()
         {
-                CurrentPhase();
+            CurrentPhase();
         }
 
     }
