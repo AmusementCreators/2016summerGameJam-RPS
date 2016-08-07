@@ -20,10 +20,11 @@ namespace RPS
 		private event Action<char, bool> UpdateButton;
 		private event Action<string, bool> UpdateLights;
 		private event Action<bool, asd.Color, string> UpdateTalkBox;
+        private event Action<bool> UpdateCharLight;
+        private event Action<string, string> UpdateCharAnimation;
+        private CharWord Words;
 
-		private CharWord Words;
-
-		public TutorialController(Action<int> updateTimeBar, Action<char, bool> updateButton, Action<string, bool> updateLights, Action<bool, asd.Color, string> updateTalkBox)
+		public TutorialController(Action<int> updateTimeBar, Action<char, bool> updateButton, Action<string, bool> updateLights, Action<bool, asd.Color, string> updateTalkBox, Action<bool> updateCharLight,Action<string, string> updateCharAnimation)
 		{
 			CurrentPhase = PhaseStoryMode;
 			UpdateTimeBar = updateTimeBar;
@@ -31,7 +32,7 @@ namespace RPS
 			UpdateLights = updateLights;
 			UpdateTalkBox = updateTalkBox;
 
-			Words = new CharWord(UpdateTalkBox);
+			Words = new CharWord(UpdateTalkBox,UpdateCharLight, UpdateCharAnimation);
 			Words.Story();
 		}
 

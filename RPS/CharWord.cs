@@ -9,14 +9,18 @@ namespace RPS
 	class CharWord
 	{
 		private event Action<bool, asd.Color, string> UpdateTalkBox;
-		private int WordCount = 0;
-		public CharWord(Action<bool, asd.Color, string> updateTalkBox)
+        private event Action<string, string> UpdateCharAnimation;
+        private event Action<bool> UpdateCharLight;
+        private int WordCount = 0;
+		public CharWord(Action<bool, asd.Color, string> updateTalkBox, Action<bool> updateCharLight, Action<string, string> updateCharAnimation)
 		{
 			UpdateTalkBox = updateTalkBox;
+            UpdateCharAnimation = updateCharAnimation;
+            UpdateCharLight = updateCharLight;
 
 		}
 
-		public bool Story()
+        public bool Story()
 		{
 			var Black = new asd.Color(0, 0, 0);
 			var Blue = new asd.Color(0, 0, 255);
@@ -50,10 +54,29 @@ namespace RPS
                 "ふふーん、臨むところ！"
         };
 
+            string [] NicoraFace = new string[]
+            {
+                "normal","normal", "talk","normal", "talk","lose","talk","lose","talk","lose","win","win","win","win","talk","win","win","win","talk"
+            };
+
+            string[] TesraFace = new string[]
+            {
+                "win","talk","win","talk","lose","talk","win","talk","normal","talk","normal", "normal","lose","talk","lose","win","talk","win", "win",
+            };
+
+            var WitchLight = new[]
+            {
+                true, true, true, false, true, false, true, false, true, false, true, true, true, false, true, true, false, false, true
+            };
+
             UpdateTalkBox(true, Color[WordCount], Text[WordCount]);
+            UpdateCharAnimation("nicora", NicoraFace[WordCount]);
+            UpdateCharAnimation("tesra", TesraFace[WordCount]);
+            UpdateCharLight(WitchLight[WordCount]);
             WordCount = WordCount + 1;
 			if (WordCount == Text.Length) return true;
 			return false;
+            
 		}
 	}
 }

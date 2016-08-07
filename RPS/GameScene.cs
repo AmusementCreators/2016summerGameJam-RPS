@@ -248,7 +248,7 @@ namespace RPS
             if (!isTutorial)
                 Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight, UpdateLights, UpdateLast, UpdateCharAnimation);
             else
-                Ctrl = new TutorialController(UpdateTimeBar, UpdateButton, UpdateLights, UpdateTalkBox);
+                Ctrl = new TutorialController(UpdateTimeBar, UpdateButton, UpdateLights, UpdateTalkBox,UpdateCharLight, UpdateCharAnimation);
         }
 
         protected override void OnUpdated()
