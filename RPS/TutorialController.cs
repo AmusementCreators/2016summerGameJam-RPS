@@ -32,6 +32,7 @@ namespace RPS
 			UpdateLights = updateLights;
 			UpdateTalkBox = updateTalkBox;
             UpdateCharLight = updateCharLight;
+			UpdateCharAnimation = updateCharAnimation;
 
 			Words = new CharWord(UpdateTalkBox,UpdateCharLight, UpdateCharAnimation);
 			Words.Story();
