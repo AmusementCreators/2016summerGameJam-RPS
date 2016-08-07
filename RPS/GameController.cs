@@ -23,7 +23,6 @@ namespace RPS
         private event Action<bool> UpdateLast;
         private event Action<string, string> UpdateCharAnimation;
 
-
         public GameController(Action<int> updateTimeBar, Action<char, bool> updateButton, Action<bool> updateCharLight, Action<string, bool> updateLights, Action<bool> updateLast, Action<string, string> updateCharAnimation)
         {
             CurrentPhase = PhaseWaitSelect;
@@ -139,8 +138,15 @@ namespace RPS
         {
             if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Enter) == asd.KeyState.Release)
             {
-                CurrentPhase = PhaseWaitSelect;
-                ShiftToWaitSelect();
+                if (WinCount != 3 || WinFlag==-1)
+                {
+                    CurrentPhase = PhaseWaitSelect;
+                    ShiftToWaitSelect();
+                }
+                else
+                {
+                    asd.Engine.ChangeSceneWithTransition(new TitleScene(), new asd.TransitionFade(0.5f, 0.5f));
+                }
             }
         }
 

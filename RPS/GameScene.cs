@@ -182,20 +182,26 @@ namespace RPS
 
         private void CreateLast(ref int priority)
         {
-            asd.TextureObject2D obj = new asd.TextureObject2D();
-            obj.DrawingPriority = priority++;
-            string namae = "";
-            asd.Texture2D texture = asd.Engine.Graphics.CreateTexture2D("Resources/" + namae + " _win.png");
-            obj.Texture = texture;
-            obj.CenterPosition = new asd.Vector2DF(640, 360);
-            Layer.AddObject(obj);
+            var name = new[] { "nicora", "tesra" };
+            foreach (var n in name)
+            {
+                asd.TextureObject2D obj = new asd.TextureObject2D();
+                obj.DrawingPriority = priority++;
+                string namae = "";
+                asd.Texture2D texture = asd.Engine.Graphics.CreateTexture2D("Resources/" + namae + " _win.png");
+                obj.Texture = texture;
+                obj.CenterPosition = new asd.Vector2DF(640, 360);
+                obj.IsDrawn = false;
+                ObjectDict.Add(n + "_win!", obj);
+                Layer.AddObject(obj);
+            }
         }
 
         private void UpdateLast(bool Finish)
         {
-            string namae = "";
-            if (true) namae = "nicora";
-            else namae = "tesra";
+            var name=Finish? "nicora": "tesra";
+            ObjectDict[name + "_win!"].IsDrawn = true;
+
         }
 
         private void LoadAnimations(ref int priority)
@@ -233,6 +239,7 @@ namespace RPS
             }
         }
 
+
         #endregion
 
         private IController Ctrl;
@@ -247,7 +254,7 @@ namespace RPS
             if (!isTutorial)
                 Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight, UpdateLights, UpdateLast, UpdateCharAnimation);
             else
-                Ctrl = new TutorialController(UpdateTalkBox,UpdateCharLight, UpdateCharAnimation);
+                Ctrl = new TutorialController(UpdateTalkBox, UpdateCharLight, UpdateCharAnimation);
         }
 
         protected override void OnUpdated()
