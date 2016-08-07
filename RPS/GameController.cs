@@ -136,7 +136,7 @@ namespace RPS
 
         private void PhaseResult()
         {
-            if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Enter) == asd.KeyState.Release)
+            if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) == asd.KeyState.Release)
             {
                 if (WinCount != 3 || WinFlag==-1)
                 {
