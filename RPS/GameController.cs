@@ -61,7 +61,10 @@ namespace RPS
             UpdateButton('K', Select[1] == 1);
             UpdateButton('L', Select[1] == 2);
 
-            int[,] table = new int[3, 3] { { 1, 0, -1 }, { 0, -1, 1 }, { -1, 1, 0 } };//勝敗テーブル
+            
+
+            int[,] table = new int[4, 4] { { 1, 0, -1,0 }, { 0, -1, 1,0 }, { -1, 1, 0,0 }, {1,1,1,-2 } };//勝敗テーブル
+
             switch (table[Select[0], Select[1]])
             {
                 case 0://左の勝ち
@@ -77,6 +80,9 @@ namespace RPS
                 case -1://あいこ
                     WinCount++;
                     if (WinFlag != -1 && WinCount != 3) UpdateLights("_light", true);
+                    break;
+                case -2://どっちも出してない
+
                     break;
             }
 
@@ -113,6 +119,8 @@ namespace RPS
             UpdateLights("redlight", false);
             UpdateLights("bluelight", false);
             TimeCount = 0;
+            Select[0] = 3;
+            Select[1] = 3;
         }
 
         public void OnUpdate()
