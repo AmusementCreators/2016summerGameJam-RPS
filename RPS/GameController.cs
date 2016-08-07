@@ -83,7 +83,6 @@ namespace RPS
                     break;
                 case -1://あいこ
                     WinCount++;
-                    if (WinFlag != -1 && WinCount != 3) UpdateLights("_light", true);
                     break;
                 case -2://どっちも出してない
 
@@ -147,9 +146,6 @@ namespace RPS
 
         private void ShiftToWaitSelect()
         {
-            UpdateLights("_light", false);
-            UpdateLights("redlight", false);
-            UpdateLights("bluelight", false);
             TimeCount = 0;
             Select[0] = 3;
             Select[1] = 3;

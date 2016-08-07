@@ -83,7 +83,6 @@ namespace RPS
             SetPriority2("bluelight", false, ref priority);
             SetPriority2("redlight", false, ref priority);
             CreateLast(ref priority);
-            string namae = "";
         }
 
         private void FillTimeBar()
@@ -248,7 +247,7 @@ namespace RPS
             if (!isTutorial)
                 Ctrl = new GameController(UpdateTimeBar, UpdateButton, UpdateCharLight, UpdateLights, UpdateLast, UpdateCharAnimation);
             else
-                Ctrl = new TutorialController(UpdateTimeBar, UpdateButton, UpdateLights, UpdateTalkBox,UpdateCharLight, UpdateCharAnimation);
+                Ctrl = new TutorialController(UpdateTalkBox,UpdateCharLight, UpdateCharAnimation);
         }
 
         protected override void OnUpdated()
