@@ -13,7 +13,7 @@ namespace RPS
         private Action CurrentPhase;
         private int WinFlag = -1;
         private int WinCount = 0;
-        private int[] Select = { -1, -1 };
+        private int[] Select = { 3,3 };
         private int TimeCount = 0;
 
         private event Action<int> UpdateTimeBar;
