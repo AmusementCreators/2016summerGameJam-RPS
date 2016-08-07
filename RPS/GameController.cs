@@ -93,18 +93,42 @@ namespace RPS
             if (WinFlag == 0) UpdateCharLight(true);
             else if (WinFlag == 1) UpdateCharLight(false);
 
+            if (WinCount == 1)
+            {
+                if (WinFlag == 0)
+                {
+                    UpdateLights("bluelight_l", true);
+                }
+                if(WinFlag == 1)
+                {
+                    UpdateLights("redlight_r", true);
+                }
+            }
+
+            if (WinCount == 2)
+            {
+                if (WinFlag == 0)
+                {
+                    UpdateLights("bluelight_c", true);
+                }
+                if (WinFlag == 1)
+                {
+                    UpdateLights("redlight_c", true);
+                }
+            }
+
             if (WinCount == 3)
             {
                 if (WinFlag == 0)
                 {
-                    UpdateLights("bluelight", true);
+                    UpdateLights("bluelight_r", true);
                     UpdateLast(true);
                     UpdateCharAnimation("nicora", "win");
                     UpdateCharAnimation("tesara", "lose");
                 }
                 else if (WinFlag == 1)
                 {
-                    UpdateLights("redlight", true);
+                    UpdateLights("redlight_l", true);
                     UpdateLast(false);
                     UpdateCharAnimation("tesra", "win");
                     UpdateCharAnimation("nicora", "lose");

@@ -61,7 +61,7 @@ namespace RPS
 
             string[] TesraFace = new string[]
             {
-                "win","talk","win","talk","lose","talk","win","talk","normal","talk","normal", "normal","lose","talk","lose","win","talk","win", "win",
+                "win","talk","win","talk","lose","talk","win","talk","normal","talk","normal", "normal","lose","talk","lose","win","talk","win", "win"
             };
 
             var WitchLight = new[]
@@ -70,9 +70,9 @@ namespace RPS
             };
 
             UpdateTalkBox(true, Color[WordCount], Text[WordCount]);
+            UpdateCharLight(WitchLight[WordCount]);
             UpdateCharAnimation("nicora", NicoraFace[WordCount]);
             UpdateCharAnimation("tesra", TesraFace[WordCount]);
-            UpdateCharLight(WitchLight[WordCount]);
             WordCount = WordCount + 1;
 			if (WordCount == Text.Length) return true;
 			return false;
