@@ -71,11 +71,15 @@ namespace RPS
                     WinFlag = 0;
                     WinCount = 0;
                     UpdateCharLight(true);
+                    UpdateCharAnimation("nicora", "win");
+                    UpdateCharAnimation("tesra", "lose");
                     break;
                 case 1://右の勝ち
                     WinFlag = 1;
                     WinCount = 0;
                     UpdateCharLight(false);
+                    UpdateCharAnimation("tesra", "win");
+                    UpdateCharAnimation("nicora", "lose");
                     break;
                 case -1://あいこ
                     WinCount++;
@@ -95,11 +99,15 @@ namespace RPS
                 {
                     UpdateLights("bluelight", true);
                     UpdateLast(true);
+                    UpdateCharAnimation("nicora", "win");
+                    UpdateCharAnimation("tesara", "lose");
                 }
                 else if (WinFlag == 1)
                 {
                     UpdateLights("redlight", true);
                     UpdateLast(false);
+                    UpdateCharAnimation("tesra", "win");
+                    UpdateCharAnimation("nicora", "lose");
                 }
             }
         }
