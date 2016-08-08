@@ -22,10 +22,10 @@ namespace RPS
             obj.Font = font;
 
             // 描画位置を指定する。
-            obj.Position = new asd.Vector2DF(200, 120);
+            obj.Position = new asd.Vector2DF(200, 72);
 
             // 描画する文字列を指定する。
-            obj.Text = " --spotlight image-- \n Freepik(http://jp.freepik.com/free-vector/ベクター画像_780623.htm) \n \n --background image-- \n Design by MysticEmma(http://zooll.com/goodies-pastel-triangle-patterns/) \n \n --animation-- \n Live2D(http://www.live2d.com/ja/) \n \n This game is created by wisteria, kengpeng. \n © 2016 AmusementCreators \n \n \n PUSH　SPACE-key TO BACK";
+            obj.Text = " --spotlight image-- \n Freepik(http://jp.freepik.com/free-vector/ベクター画像_780623.htm) \n \n --background image-- \n Design by MysticEmma(http://zooll.com/goodies-pastel-triangle-patterns/) \n \n --animation-- \n Live2D(http://www.live2d.com/ja/) \n \n --game engine-- \n Altseeed(http://altseed.github.io/) \n \n This game is created by wisteria, KengPeng. \n © 2016 AmusementCreators \n \n \n PUSH　SPACE-key TO BACK";
 
             layer = new asd.Layer2D();
             AddLayer(layer);
